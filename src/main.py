@@ -8,6 +8,21 @@ ROOT_DIR= os.getcwd()
 SOURCE_PATH = os.path.join(ROOT_DIR, SOURCE_DIR)
 SITE_PATH = os.path.join(ROOT_DIR, SITE_DIR) 
 
+# Adds the HTML source to a template
+def add_to_template(source):
+    template = """<!DOCTYPE html>
+<html>
+<head>
+    <title> My family is a potato </title>
+</head>
+<body>
+
+{}
+                  
+</body>
+</html>"""
+    return template.format(source)
+
 # Used to create HTML files from a given markdown file
 def create_html(md_path):
     # Load the markdown source
@@ -20,7 +35,7 @@ def create_html(md_path):
     html_file_path = md_path.replace("md", "html")
     html_path = os.path.join(SITE_PATH, html_file_path)
     html_file = open(html_path, "w")
-    html_file.write(html_file_source)
+    html_file.write(add_to_template(html_file_source))
 
 # Call the main function
 def main():
