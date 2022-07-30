@@ -2,6 +2,9 @@ import os
 import re
 import markdown
 
+# Global variable to buffer posts to generate index.html
+blogposts_data = [] 
+
 # Relevant paths
 SOURCE_DIR = "posts"
 SITE_DIR = "site"    
@@ -33,8 +36,18 @@ class Post:
         endptr = source_copy.replace("===", "xxx", 1).find("===")
         self.content = source_copy[endptr + len("==="):]
 
+# Blogpost data class
+class PostData:
+    # Create post data
+    def __init__(self, path, post):
+        path_start = path.find('/site/')
+        self.path = path[path_start:]
+        self.title = post.title
+        self.date = post.date
+        self.desc = post.description
+
 # Adds the HTML source to a template
-def add_to_template(source, title):
+def add_to_template(source, post):
     template = """<!DOCTYPE html>
 <html>
 <head>
@@ -47,7 +60,7 @@ def add_to_template(source, title):
 </body>
 </html>"""
 
-    return template.format(title, source)
+    return template.format(post.title, source)
 
 # Used to create HTML files from a given markdown file
 def create_html(md_path):
@@ -61,11 +74,47 @@ def create_html(md_path):
     # Convert to HTML
     html_file_source = markdown.markdown(post.content)
 
-    # Finally save it to a HTML file
+    # Save it to a HTML file
     html_file_path = md_path.replace("md", "html")
     html_path = os.path.join(SITE_PATH, html_file_path)
     html_file = open(html_path, "w")
-    html_file.write(add_to_template(html_file_source, post.title))
+    html_file.write(add_to_template(html_file_source, post))
+
+    # Add data to the blogpost
+    blogposts_data.append(PostData(html_path, post))
+
+    # Close files
+    file_source.close()
+    html_file.close()
+
+# Used to generate an index.html
+def generate_index():
+    index_template = """<!DOCTYPE html>
+<html>
+<head>
+    <title> Stelleron </title>
+</head>
+<body>
+
+{}
+                  
+</body>
+</html>"""
+
+    # Stores the HTML to be added to the index.html
+    html_data = ""
+
+    # Convert all of the stored blog data to HTML blocks 
+    for blog_data in blogposts_data:
+        html_buffer = "<a href=\"{0}\">{1}</a>\n"
+        html_buffer = html_buffer.format(blog_data.path, blog_data.title)
+        print(html_buffer)
+        html_data += html_buffer
+
+    # Format and write the index.html file
+    index_source = index_template.format(html_data)
+    index_file = open("index.html", "w")
+    index_file.write(index_source)
 
 # Call the main function
 def main():
@@ -77,9 +126,13 @@ def main():
 
     # Now time to convert each post in the source directory into a HTML file and add it to the target directory
     source_files = os.listdir(SOURCE_PATH)
-    print('Found {} file(s). Loading them all...'.format(len(source_files)))
+    print('Found {} file(s). Loading them all...\n'.format(len(source_files)))
     for path in source_files:
         create_html(path)
+    
+    # Generate an index.html
+    generate_index()
+    print("Finished building the site!")
     
 
 
