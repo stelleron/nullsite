@@ -108,9 +108,8 @@ def generate_index():
 
     # Convert all of the stored blog data to HTML blocks 
     for blog_data in blogposts_data:
-        html_buffer = "<a href=\"{0}\">{1}</a>\n"
+        html_buffer = "<a href=\"{0}\">{1}</a><br>\n"
         html_buffer = html_buffer.format(blog_data.path, blog_data.title)
-        print(html_buffer)
         html_data += html_buffer
 
     # Format and write the index.html file
