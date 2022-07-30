@@ -52,6 +52,7 @@ def add_to_template(source, post):
 <html>
 <head>
     <title> {} </title>
+    <link rel="stylesheet" href="/style/style.css">
 </head>
 <body>
 
@@ -93,6 +94,7 @@ def generate_index():
 <html>
 <head>
     <title> Stelleron </title>
+    <link rel="stylesheet" href="/style/style.css">
 </head>
 <body>
 
