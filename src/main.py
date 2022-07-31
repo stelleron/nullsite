@@ -1,9 +1,13 @@
 import os
 import re
 import markdown
+import toml
 
 # Global variable to buffer posts to generate index.html
 blogposts_data = [] 
+
+# Global variable to the name of the blog
+blog_name = 0
 
 # Relevant paths
 SOURCE_DIR = "posts"
@@ -11,6 +15,31 @@ SITE_DIR = "site"
 ROOT_DIR= os.getcwd()
 SOURCE_PATH = os.path.join(ROOT_DIR, SOURCE_DIR)
 SITE_PATH = os.path.join(ROOT_DIR, SITE_DIR) 
+HTML_TEMPLATE = """<!DOCTYPE html>
+<html>
+<head>
+    <title> {} </title>
+    <link rel="stylesheet" href="/style/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Mono:wght@700&family=Quicksand:wght@300&family=Roboto+Mono:wght@100&family=Roboto:ital,wght@0,300;1,300&display=swap" rel="stylesheet">
+</head>
+<body>
+<div class="index-header">
+    <span class="index-title"><a href="/index.html" class="index-link">{}</a></span>
+    <span class="index-box">
+        <span><a class="index-link">About</a></span>
+        <span><a class="index-link">Projects</a></span>
+    </span>
+    <hr/>
+</div>
+<div class="content">
+{}
+</div>
+
+                  
+</body>
+</html>"""
 
 # Post class 
 class Post:
@@ -48,33 +77,7 @@ class PostData:
 
 # Adds the HTML source to a template
 def add_to_template(source, post):
-    template = """<!DOCTYPE html>
-<html>
-<head>
-    <title> {} </title>
-    <link rel="stylesheet" href="/style/style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Mono:wght@700&family=Quicksand:wght@300&family=Roboto+Mono:wght@100&family=Roboto:ital,wght@0,300;1,300&display=swap" rel="stylesheet">
-</head>
-<body>
-<div class="index-header">
-    <span class="index-title"><a href="/index.html">Stelleron's Blog</a></span>
-    <span class="index-box">
-        <span>About</span>
-        <span>Projects</span>
-    </span>
-    <hr/>
-</div>
-
-<div class="content">
-{}
-</div>
-
-</body>
-</html>"""
-
-    return template.format(post.title, source)
+    return HTML_TEMPLATE.format(post.title, blog_name, source)
 
 # Used to create HTML files from a given markdown file
 def create_html(md_path):
@@ -103,32 +106,6 @@ def create_html(md_path):
 
 # Used to generate an index.html
 def generate_index():
-    index_template = """<!DOCTYPE html>
-<html>
-<head>
-    <title> My Blog </title>
-    <link rel="stylesheet" href="/style/style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Mono:wght@700&family=Quicksand:wght@300&family=Roboto+Mono:wght@100&family=Roboto:ital,wght@0,300;1,300&display=swap" rel="stylesheet">
-</head>
-<body>
-<div class="index-header">
-    <span class="index-title"><a href="/index.html" class="index-link">My Blog</a></span>
-    <span class="index-box">
-        <span><a class="index-link">About</a></span>
-        <span><a class="index-link">Projects</a></span>
-    </span>
-    <hr/>
-</div>
-<div class="content">
-{}
-</div>
-
-                  
-</body>
-</html>"""
-
     # Stores the HTML to be added to the index.html
     html_data = ""
 
@@ -142,13 +119,18 @@ def generate_index():
         html_data += html_buffer
 
     # Format and write the index.html file
-    index_source = index_template.format(html_data)
+    index_source = HTML_TEMPLATE.format(blog_name, blog_name, html_data)
     index_file = open("index.html", "w")
     index_file.write(index_source)
 
-# Call the main function
+# Main function
 def main():
+    global blog_name
     print("Building site...")
+
+    # First parse the config.toml in the base directory
+    config = toml.load("config.toml")
+    blog_name = "{}\'s Blog".format(config["name"])
 
     # Now create the site directory if it doesn't exist
     if (os.path.exists(SITE_PATH) == False):
