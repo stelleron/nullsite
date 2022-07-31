@@ -106,7 +106,7 @@ def generate_index():
     index_template = """<!DOCTYPE html>
 <html>
 <head>
-    <title> Stelleron </title>
+    <title> My Blog </title>
     <link rel="stylesheet" href="/style/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -114,7 +114,7 @@ def generate_index():
 </head>
 <body>
 <div class="index-header">
-    <span class="index-title"><a href="/index.html" class="index-link">Stelleron's Blog</a></span>
+    <span class="index-title"><a href="/index.html" class="index-link">My Blog</a></span>
     <span class="index-box">
         <span><a class="index-link">About</a></span>
         <span><a class="index-link">Projects</a></span>
