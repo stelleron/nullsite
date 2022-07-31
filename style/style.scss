@@ -87,3 +87,15 @@ a:visited {
   margin-left: $left-margin;
   margin-right: $right-margin;
 }
+
+.index-footer {
+  display: flex;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+  justify-content: center;
+}
+
+.icon {
+  margin-right: 20px;
+}

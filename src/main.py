@@ -9,6 +9,9 @@ blogposts_data = []
 # Global variable to the name of the blog
 blog_name = 0
 
+# Global variable for the blog's footer
+footer = "<br>"
+
 # Relevant paths
 SOURCE_DIR = "posts"
 SITE_DIR = "site"    
@@ -35,8 +38,12 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 </div>
 <div class="content">
 {}
+<hr>
 </div>
 
+<div class="index-footer">
+{}
+</div>
                   
 </body>
 </html>"""
@@ -77,7 +84,8 @@ class PostData:
 
 # Adds the HTML source to a template
 def add_to_template(source, post):
-    return HTML_TEMPLATE.format(post.title, blog_name, source)
+    global footer
+    return HTML_TEMPLATE.format(post.title, blog_name, source, footer)
 
 # Used to create HTML files from a given markdown file
 def create_html(md_path):
@@ -109,28 +117,58 @@ def generate_index():
     # Stores the HTML to be added to the index.html
     html_data = ""
 
+    x = 0
     # Convert all of the stored blog data to HTML blocks 
     for blog_data in blogposts_data:
         html_buffer = """<a href=\"{0}\" class="index-post-title">{1}</a>
         <div class="index-post-date">{2}</div>
         <p class="index-post-desc">{3}</p>
-        <hr/>"""
+        """
         html_buffer = html_buffer.format(blog_data.path, blog_data.title, blog_data.date, blog_data.desc)
+        # If not the last blog post, also add a horizontal line
+        if (x < len(blogposts_data) - 1):
+            html_buffer += "<hr>"
+
         html_data += html_buffer
+        x += 1
 
     # Format and write the index.html file
-    index_source = HTML_TEMPLATE.format(blog_name, blog_name, html_data)
+    index_source = HTML_TEMPLATE.format(blog_name, blog_name, html_data, footer)
     index_file = open("index.html", "w")
     index_file.write(index_source)
+
+# Generate footer
+def generate_footer(config):
+    # If there are links in the config.toml , create a new footer with them
+    config.pop("name")
+    if len(config):
+        footer = ""
+        print("Adding footer...")
+
+        # Look for a GitHub link(only link supported right now)
+        if ("github" in config):
+            print("Found GitHub link!")
+            # Add the GitHub icon to the footer and the link
+            github_logo = "<a href=\"{}\"><img src=\"/images/base/github-icon.png\" class=\"icon\"></a>"
+            github_logo = github_logo.format(config["github"])
+            footer += github_logo
+
+        print("\n")
+    return footer
 
 # Main function
 def main():
     global blog_name
+    global footer
+
     print("Building site...")
 
     # First parse the config.toml in the base directory
     config = toml.load("config.toml")
     blog_name = "{}\'s Blog".format(config["name"])
+    
+    # Also generate a footer
+    footer = generate_footer(config)
 
     # Now create the site directory if it doesn't exist
     if (os.path.exists(SITE_PATH) == False):
