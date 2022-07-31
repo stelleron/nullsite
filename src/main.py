@@ -53,11 +53,22 @@ def add_to_template(source, post):
 <head>
     <title> {} </title>
     <link rel="stylesheet" href="/style/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Mono:wght@700&family=Quicksand:wght@300&family=Roboto+Mono:wght@100&family=Roboto:ital,wght@0,300;1,300&display=swap" rel="stylesheet">
 </head>
 <body>
+<div class="index-header">
+    <span class="index-title"><a href="/index.html">Stelleron's Blog</a></span>
+    <span>About</span>
+    <span>Projects</span>
+    <hr/>
+</div>
 
+<div class="content">
 {}
-                  
+</div>
+
 </body>
 </html>"""
 
@@ -95,10 +106,21 @@ def generate_index():
 <head>
     <title> Stelleron </title>
     <link rel="stylesheet" href="/style/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Mono:wght@700&family=Quicksand:wght@300&family=Roboto+Mono:wght@100&family=Roboto:ital,wght@0,300;1,300&display=swap" rel="stylesheet">
 </head>
 <body>
-
+<div class="index-header">
+    <span class="index-title"><a href="/index.html">Stelleron's Blog</a></span>
+    <span>About</span>
+    <span>Projects</span>
+    <hr/>
+</div>
+<div class="content">
 {}
+</div>
+
                   
 </body>
 </html>"""
@@ -108,8 +130,11 @@ def generate_index():
 
     # Convert all of the stored blog data to HTML blocks 
     for blog_data in blogposts_data:
-        html_buffer = "<a href=\"{0}\">{1}</a><br>\n"
-        html_buffer = html_buffer.format(blog_data.path, blog_data.title)
+        html_buffer = """<a href=\"{0}\" class="index-post-title">{1}</a>
+        <div class="index-post-date">{2}</div>
+        <p class="index-post-desc">{3}</p>
+        <hr/>"""
+        html_buffer = html_buffer.format(blog_data.path, blog_data.title, blog_data.date, blog_data.desc)
         html_data += html_buffer
 
     # Format and write the index.html file

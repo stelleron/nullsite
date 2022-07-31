@@ -1,4 +1,65 @@
-body {
-  color: rgb(232, 232, 232);
-  background-color: rgb(20, 20, 20);
+.index-header {
+  font-family: "Roboto", sans-serif;
+  font-size: 20px;
+  align-items: center;
+  align-content: center;
+  margin-left: 25%;
+  margin-right: 25%;
+  padding: 0%;
+}
+
+span + span {
+  margin-left: 40px;
+}
+
+.index-title {
+  font-size: 45px;
+}
+
+.index-post-title {
+  font-size: 35px;
+}
+
+.index-post-date {
+  margin-top: 6px;
+  color: #999;
+  margin-bottom: 40px;
+}
+
+hr {
+  margin-top: 20px;
+  margin-bottom: 30px;
+  border: 0;
+  height: 1px;
+  background-color: rgba(136, 136, 136, 0.26);
+}
+
+a:link {
+  color: green;
+  background-color: transparent;
+  text-decoration: none;
+}
+
+a:visited {
+  color: pink;
+  background-color: transparent;
+  text-decoration: none;
+}
+
+a:hover {
+  color: red;
+  background-color: transparent;
+  text-decoration: underline;
+}
+
+a:active {
+  color: yellow;
+  background-color: transparent;
+  text-decoration: underline;
+}
+
+.content {
+  font-family: "Roboto", sans-serif;
+  margin-left: 25%;
+  margin-right: 25%;
 }/*# sourceMappingURL=style.css.map */
