@@ -60,8 +60,10 @@ def add_to_template(source, post):
 <body>
 <div class="index-header">
     <span class="index-title"><a href="/index.html">Stelleron's Blog</a></span>
-    <span>About</span>
-    <span>Projects</span>
+    <span class="index-box">
+        <span>About</span>
+        <span>Projects</span>
+    </span>
     <hr/>
 </div>
 
@@ -112,9 +114,11 @@ def generate_index():
 </head>
 <body>
 <div class="index-header">
-    <span class="index-title"><a href="/index.html">Stelleron's Blog</a></span>
-    <span>About</span>
-    <span>Projects</span>
+    <span class="index-title"><a href="/index.html" class="index-link">Stelleron's Blog</a></span>
+    <span class="index-box">
+        <span><a class="index-link">About</a></span>
+        <span><a class="index-link">Projects</a></span>
+    </span>
     <hr/>
 </div>
 <div class="content">

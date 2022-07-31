@@ -1,6 +1,8 @@
 $left-margin: 25%;
 $right-margin: 25%;
 $font-type: 'Roboto', sans-serif;
+$font-color: black;
+$link-color: rgb(85, 26, 139);
 
 .index-header {
   font-family: $font-type;
@@ -20,6 +22,10 @@ span + span {
   font-size: 45px;
 }
 
+.index-box {
+
+}
+
 .index-post-title {
   font-size: 35px;
 }
@@ -30,6 +36,10 @@ span + span {
   margin-bottom: 40px;
 }
 
+.index-post-desc {
+  font-size: 18px;
+}
+
 hr {
   margin-top: 20px;
   margin-bottom: 30px;
@@ -38,28 +48,36 @@ hr {
   background-color: rgba(136, 136, 136, 0.26);
 }
 
-a:link {
-    color: green;
+a.index-link:link {
+    color: $font-color;
     background-color: transparent;
     text-decoration: none;
   }
   
-a:visited {
-  color: pink;
+a.index-link:visited {
+  color: $font-color;
   background-color: transparent;
   text-decoration: none;
 }
   
-a:hover {
-  color: red;
+a.index-link:hover {
+  color: $font-color;
   background-color: transparent;
-  text-decoration: underline;
 }
   
-a:active {
-  color: yellow;
+a.index-link:active {
+  color: $font-color;
   background-color: transparent;
-  text-decoration: underline;
+}
+
+a:link {
+  color:$link-color;
+  background-color: transparent;
+}
+
+a:visited {
+  color:$link-color;
+  background-color: transparent;
 }
 
 .content {

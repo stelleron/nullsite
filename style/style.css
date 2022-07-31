@@ -26,6 +26,10 @@ span + span {
   margin-bottom: 40px;
 }
 
+.index-post-desc {
+  font-size: 18px;
+}
+
 hr {
   margin-top: 20px;
   margin-bottom: 30px;
@@ -34,28 +38,36 @@ hr {
   background-color: rgba(136, 136, 136, 0.26);
 }
 
-a:link {
-  color: green;
+a.index-link:link {
+  color: black;
   background-color: transparent;
   text-decoration: none;
+}
+
+a.index-link:visited {
+  color: black;
+  background-color: transparent;
+  text-decoration: none;
+}
+
+a.index-link:hover {
+  color: black;
+  background-color: transparent;
+}
+
+a.index-link:active {
+  color: black;
+  background-color: transparent;
+}
+
+a:link {
+  color: rgb(85, 26, 139);
+  background-color: transparent;
 }
 
 a:visited {
-  color: pink;
+  color: rgb(85, 26, 139);
   background-color: transparent;
-  text-decoration: none;
-}
-
-a:hover {
-  color: red;
-  background-color: transparent;
-  text-decoration: underline;
-}
-
-a:active {
-  color: yellow;
-  background-color: transparent;
-  text-decoration: underline;
 }
 
 .content {
