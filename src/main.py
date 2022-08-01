@@ -31,7 +31,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
     <link rel="stylesheet" href="/style/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Mono:wght@700&family=Quicksand:wght@300&family=Roboto+Mono:wght@100&family=Roboto:ital,wght@0,300;1,300&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,700;1,300;1,700&display=swap" rel="stylesheet">
 </head>
 <body>
 <div class="index-header">
