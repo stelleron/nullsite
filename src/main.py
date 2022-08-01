@@ -1,7 +1,9 @@
+from operator import index, truediv
 import os
 import re
 import markdown
 import toml
+import datetime
 
 # Global variable to buffer posts to generate index.html
 blogposts_data = [] 
@@ -103,6 +105,14 @@ class PostData:
         self.title = post.title
         self.date = post.date
         self.desc = post.description
+         # Also store the date of the object in datetime format(for sorting)
+        self.sort_date = datetime.datetime.strptime(self.date,"%d-%m-%Y").date()
+
+    def __gt__(self, other):
+        if (self.date > other.date):
+            return True
+        else:
+            return False
 
 # Adds the HTML source to a template
 def add_to_template(source, post):
@@ -136,6 +146,9 @@ def create_html(md_path):
 
 # Used to generate an index.html
 def generate_index():
+    # Sort the blogposts
+    blogposts_data.sort(reverse=True)
+
     # Stores the HTML to be added to the index.html
     html_data = ""
 
