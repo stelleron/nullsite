@@ -12,6 +12,10 @@ blog_name = 0
 # Global variable for the blog's footer
 footer = "<br>"
 
+# Global variable for storing the path of About and Projects folder
+about_path = ""
+projects_path = ""
+
 # Relevant paths
 SOURCE_DIR = "posts"
 SITE_DIR = "site"    
@@ -31,8 +35,8 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 <div class="index-header">
     <span class="index-title"><a href="/index.html" class="index-link">{}</a></span>
     <span class="index-box">
-        <span><a class="index-link">About</a></span>
-        <span><a class="index-link">Projects</a></span>
+        <span><a href = \"{}\" class="index-link">About</a></span>
+        <span><a href = \"{}\" class="index-link">Projects</a></span>
     </span>
     <hr/>
 </div>
@@ -47,6 +51,24 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                   
 </body>
 </html>"""
+
+# Special page class
+class SpecialPage:
+    # Creates a special page
+    def __init__(self, source):
+        # Extract frontmatter from the source
+        source_copy = source
+        stripped_source = source.replace("\n", "")
+        frontmatter = re.search('===(.*)===', stripped_source)
+
+        # Then get the title, date and description
+        frontdata = frontmatter.group(1)
+        title_loc = frontdata.find('title')
+        self.title = (frontdata[title_loc + len("title:") + 1:])
+
+        # Then get the content of the markdown file ignoring the frontmatter
+        endptr = source_copy.replace("===", "xxx", 1).find("===")
+        self.content = source_copy[endptr + len("==="):]
 
 # Post class 
 class Post:
@@ -85,7 +107,7 @@ class PostData:
 # Adds the HTML source to a template
 def add_to_template(source, post):
     global footer
-    return HTML_TEMPLATE.format(post.title, blog_name, source, footer)
+    return HTML_TEMPLATE.format(post.title, blog_name, about_path, projects_path, source, footer)
 
 # Used to create HTML files from a given markdown file
 def create_html(md_path):
@@ -114,8 +136,6 @@ def create_html(md_path):
 
 # Used to generate an index.html
 def generate_index():
-    # First generate the About and Projects page and save their links
-
     # Stores the HTML to be added to the index.html
     html_data = ""
 
@@ -135,7 +155,7 @@ def generate_index():
         x += 1
 
     # Format and write the index.html file
-    index_source = HTML_TEMPLATE.format(blog_name, blog_name, html_data, footer)
+    index_source = HTML_TEMPLATE.format(blog_name, blog_name, about_path, projects_path, html_data, footer)
     index_file = open("index.html", "w")
     index_file.write(index_source)
 
@@ -158,6 +178,69 @@ def generate_footer(config):
 
         print("\n")
     return footer
+
+# Generate special pages
+def generate_special_pages(config):
+    global about_path
+    global projects_path
+
+    about_dest_loc = ""
+    projects_dest_loc = ""
+    about_page = ""
+    projects_page = ""
+    about_page_source = ""
+    projects_page_source = ""
+
+    # First generate the About and Projects page and save their links
+    if ("about" in config):
+        # Load the source and destination paths
+
+        source_loc = config["about"]
+        dest_loc = source_loc.replace("md", "html")
+        dest_loc = os.path.basename(dest_loc)
+        dest_loc = os.path.join(SITE_PATH, dest_loc)
+        source_loc = os.path.join(ROOT_DIR, source_loc)
+
+        # Now load the souce 
+        file_source = open(source_loc)
+        about_page = SpecialPage(file_source.read())
+
+        # And convert it to HTML
+        about_page_source = markdown.markdown(about_page.content)
+
+        # Finally add the link 
+        path_start = dest_loc.find('/site/')
+        about_path = dest_loc[path_start:]
+        about_dest_loc = dest_loc
+
+    # Then generate the projects page
+    if ("projects" in config):
+        # Load the source and destination paths
+
+        source_loc = config["projects"]
+        dest_loc = source_loc.replace("md", "html")
+        dest_loc = os.path.basename(dest_loc)
+        dest_loc = os.path.join(SITE_PATH, dest_loc)
+        source_loc = os.path.join(ROOT_DIR, source_loc)
+
+        # Now load the souce 
+        file_source = open(source_loc)
+        projects_page = SpecialPage(file_source.read())
+
+        # And convert it to HTML
+        projects_page_source = markdown.markdown(projects_page.content)
+
+        # Finally add the link 
+        path_start = dest_loc.find('/site/')
+        projects_path = dest_loc[path_start:]
+        projects_dest_loc = dest_loc
+
+    # Convert the two pages here once links have been generatedh)
+    about_file = open(about_dest_loc, "w")
+    about_file.write(add_to_template(about_page_source, about_page))
+
+    projects_file = open(projects_dest_loc, "w")
+    projects_file.write(add_to_template(projects_page_source, projects_page))
 
 # Main function
 def main():
@@ -182,8 +265,11 @@ def main():
 
     for path in source_files:
         if (os.path.isdir(os.path.join(SOURCE_PATH, path))):
-            # Remove the special folder 
+            # Remove any folders
             source_files.remove(path)
+
+    print("First generating any special pages...")
+    generate_special_pages(config)
 
     print('Found {} file(s). Loading them all...\n'.format(len(source_files)))
     for path in source_files:

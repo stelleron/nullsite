@@ -2,8 +2,8 @@
 name = "German Sheperd"
 
 # Your About and Projects page location
-about = "/posts/special/about.md"
-projects = "/posts/special/projects.md"
+about = "posts/special/about.md"
+projects = "posts/special/projects.md"
 
 [footer]
 # Your GitHub profile link(uncomment to add)
