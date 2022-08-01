@@ -176,6 +176,10 @@ def main():
 
     # Now time to convert each post in the source directory into a HTML file and add it to the target directory
     source_files = os.listdir(SOURCE_PATH)
+    for path in source_files:
+        if (os.path.isdir(os.path.join(SOURCE_PATH, path))):
+            source_files.remove(path)
+
     print('Found {} file(s). Loading them all...\n'.format(len(source_files)))
     for path in source_files:
         create_html(path)
