@@ -114,6 +114,8 @@ def create_html(md_path):
 
 # Used to generate an index.html
 def generate_index():
+    # First generate the About and Projects page and save their links
+
     # Stores the HTML to be added to the index.html
     html_data = ""
 
@@ -139,18 +141,19 @@ def generate_index():
 
 # Generate footer
 def generate_footer(config):
-    # If there are links in the config.toml , create a new footer with them
-    config.pop("name")
-    if len(config):
+    global footer
+    # If there are links in the config.toml footer section , create a new footer with them
+    footer_config = config["footer"]
+    if len(footer_config) > 0:
         footer = ""
         print("Adding footer...")
 
         # Look for a GitHub link(only link supported right now)
-        if ("github" in config):
+        if ("github" in footer_config):
             print("Found GitHub link!")
             # Add the GitHub icon to the footer and the link
             github_logo = "<a href=\"{}\"><img src=\"/images/base/github-icon.png\" class=\"icon\"></a>"
-            github_logo = github_logo.format(config["github"])
+            github_logo = github_logo.format(footer_config["github"])
             footer += github_logo
 
         print("\n")
@@ -176,8 +179,10 @@ def main():
 
     # Now time to convert each post in the source directory into a HTML file and add it to the target directory
     source_files = os.listdir(SOURCE_PATH)
+
     for path in source_files:
         if (os.path.isdir(os.path.join(SOURCE_PATH, path))):
+            # Remove the special folder 
             source_files.remove(path)
 
     print('Found {} file(s). Loading them all...\n'.format(len(source_files)))
