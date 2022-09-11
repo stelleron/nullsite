@@ -109,7 +109,7 @@ class PostData:
         self.sort_date = datetime.datetime.strptime(self.date,"%d-%m-%Y").date()
 
     def __gt__(self, other):
-        if (self.date > other.date):
+        if (self.sort_date > other.sort_date):
             return True
         else:
             return False
