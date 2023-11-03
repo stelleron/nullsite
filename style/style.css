@@ -1,5 +1,14 @@
+@font-face {
+  font-family: "Ubuntu Mono";
+  src: url("https://fonts.googleapis.com/css2?family=Ubuntu+Mono&display=swap");
+}
+body {
+  background-color: white;
+  color: black;
+}
+
 .index-header {
-  font-family: "Roboto", sans-serif;
+  font-family: "Ubuntu Mono", monospace;
   font-size: 20px;
   align-items: center;
   align-content: center;
@@ -11,7 +20,7 @@
 }
 
 span + span {
-  margin-left: 40px;
+  margin-left: 20px;
 }
 
 .index-title {
@@ -63,17 +72,17 @@ a.index-link:active {
 }
 
 a:link {
-  color: rgb(85, 26, 139);
+  color: rgb(38, 147, 187);
   background-color: transparent;
 }
 
 a:visited {
-  color: rgb(85, 26, 139);
+  color: rgb(38, 147, 187);
   background-color: transparent;
 }
 
 .content {
-  font-family: "Roboto", sans-serif;
+  font-family: "Ubuntu Mono", monospace;
   margin-left: 25%;
   margin-right: 25%;
 }

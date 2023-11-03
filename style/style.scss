@@ -1,8 +1,19 @@
 $left-margin: 25%;
 $right-margin: 25%;
-$font-type: 'Roboto', sans-serif;
+$font-type: 'Ubuntu Mono', monospace;
+$background-color: white;
 $font-color: black;
-$link-color: rgb(85, 26, 139);
+$link-color: rgb(38, 147, 187);
+
+@font-face {
+  font-family: 'Ubuntu Mono';
+  src: url('https://fonts.googleapis.com/css2?family=Ubuntu+Mono&display=swap');
+}
+
+body {
+  background-color: $background-color;
+  color: $font-color;
+}
 
 .index-header {
   font-family: $font-type;
@@ -17,7 +28,7 @@ $link-color: rgb(85, 26, 139);
 }
 
 span + span {
-  margin-left: 40px;
+  margin-left: 20px;
 }
 
 .index-title {

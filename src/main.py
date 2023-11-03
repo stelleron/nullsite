@@ -21,9 +21,13 @@ projects_path = ""
 # Relevant paths
 SOURCE_DIR = "posts"
 SITE_DIR = "site"    
-ROOT_DIR= os.getcwd()
+ROOT_DIR = os.getcwd()
 SOURCE_PATH = os.path.join(ROOT_DIR, SOURCE_DIR)
 SITE_PATH = os.path.join(ROOT_DIR, SITE_DIR) 
+
+GITHUB_LINK = """<a href="{}"><img src="/images/base/github-mark.svg" class="icon" width="32" height="32"></a>"""
+LINKEDIN_LINK = """<a href="{}"><img src="/images/base/linkedin-mark.svg" class="icon" width="32" height="32"></a>"""
+
 HTML_TEMPLATE = """<!DOCTYPE html>
 <html>
 <head>
@@ -31,7 +35,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
     <link rel="stylesheet" href="/style/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,700;1,300;1,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu+Mono&display=swap" rel="stylesheet">  
 </head>
 <body>
 <div class="index-header">
@@ -181,13 +185,21 @@ def generate_footer(config):
         footer = ""
         print("Adding footer...")
 
-        # Look for a GitHub link(only link supported right now)
+        # Look for a GitHub link
         if ("github" in footer_config):
             print("Found GitHub link!")
             # Add the GitHub icon to the footer and the link
-            github_logo = "<a href=\"{}\"><img src=\"/images/base/github-icon.png\" class=\"icon\"></a>"
+            github_logo = GITHUB_LINK
             github_logo = github_logo.format(footer_config["github"])
             footer += github_logo
+        
+        # Look for a LinkedIn link
+        if ("linkedin" in footer_config):
+            print("Found LinkedIn link")
+            # Add the LinkedIn icon to the footer and the link
+            linkedin_logo = LINKEDIN_LINK
+            linkedin_logo = linkedin_logo.format(footer_config["linkedin"])
+            footer += linkedin_logo
 
         print("\n")
     return footer
